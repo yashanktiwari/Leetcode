@@ -1,0 +1,9 @@
+AND Operator:
+if:
+ x & y == z
+then:
+ x & z == z   and   y & z == z.
+Also, then x and y are called the supermasks.
+
+Question Example: Find if subsequence exist whose & is equal to target.
+Approach: Collect all the supermasks in the arraylist. If and of all the supermasks is equal to target then subsequence exists else not.
