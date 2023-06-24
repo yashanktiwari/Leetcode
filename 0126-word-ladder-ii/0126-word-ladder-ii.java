@@ -11,6 +11,8 @@ class Solution {
             int n = rv.length();
             char[] arr = rv.toCharArray();
             
+            if(rv.equals(endWord)) break;
+
             for(int i=0; i<n; i++) {
                 char original = arr[i];
                 for(char ch='a'; ch<='z'; ch++) {
