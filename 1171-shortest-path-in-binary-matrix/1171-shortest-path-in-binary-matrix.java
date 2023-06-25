@@ -16,6 +16,9 @@ class Solution {
         }
         distance[source[0]][source[1]] = 0;
         
+        int[] rows = {-1, 0, 1, 0, -1, -1, 1, 1};
+        int[] cols = {0, -1, 0, 1, 1, -1, -1, 1};
+
         while(!queue.isEmpty()) {
             Pair rp = queue.poll();
             int i = rp.i;
@@ -25,9 +28,6 @@ class Solution {
             if(i == destination[0] && j == destination[1]) {
                 return dist;
             }
-
-            int[] rows = {-1, 0, 1, 0, -1, -1, 1, 1};
-            int[] cols = {0, -1, 0, 1, 1, -1, -1, 1};
 
             for(int t=0; t<rows.length; t++) {
                 int newrow = i + rows[t];
