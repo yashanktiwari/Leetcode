@@ -23,7 +23,7 @@ class Solution {
             else return 1;
         });
         double[] arr = new double[map.size()];
-        Arrays.fill(arr, -1000000000);
+        Arrays.fill(arr, -1);
         pq.add(new Pair(start, 1.0));
         while(!pq.isEmpty()) {
             Pair rp = pq.poll();
