@@ -11,8 +11,7 @@ class Solution {
             } else if(height[ei] > height[si]) {
                 si++;
             } else {
-                if(height[si] < height[si+1]) si++;
-                else ei--;
+                si++;
             }
         }
         return ans;
