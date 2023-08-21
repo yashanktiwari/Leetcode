@@ -2,13 +2,13 @@ class Solution {
     public int findMaximumXOR(int[] nums) {
         Trie obj = new Trie();
         int n = nums.length;
-        for(int i=0; i<n; i++) {
-            obj.insert(nums[i]);
+        for(int val : nums) {
+            obj.insert(val);
         }
 
         int ans = 0;
-        for(int i=0; i<n; i++) {
-            ans = Math.max(ans, obj.getMax(nums[i]));
+        for(int val : nums) {
+            ans = Math.max(ans, obj.getMax(val));
         }
         return ans;
     }
