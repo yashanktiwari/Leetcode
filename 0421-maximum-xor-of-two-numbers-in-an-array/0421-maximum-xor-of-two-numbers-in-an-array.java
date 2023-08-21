@@ -1,82 +1,83 @@
 class Solution {
-    public static class Node
-    {
-        Node zero;
-        Node one;
-
-    }
-    public int findMaximumXOR(int[] nums) 
-    {
-        Node root = new Node();
-        for(int val : nums)
-        {
-            insert(root,val);
+    public int findMaximumXOR(int[] nums) {
+        Trie obj = new Trie();
+        int n = nums.length;
+        for(int i=0; i<n; i++) {
+            obj.insert(nums[i]);
         }
 
-        int xor = Integer.MIN_VALUE;
-        for(int val : nums)
-        {
-            xor = Math.max(xor,getMaxXOR(root,val));
-        }   
-        return xor;
+        int ans = 0;
+        for(int i=0; i<n; i++) {
+            ans = Math.max(ans, obj.getMax(nums[i]));
+        }
+        return ans;
     }
-    
-    public static void insert(Node root,int val) {
-        Node current = root;
-        for (int i = 31; i >= 0; i--) {
-            if ((val & (1 << i)) == 0) {
-                if (current.zero != null) {
-                    current = current.zero;
-                } else {
-                    Node newNode = new Node();
-                    current.zero = newNode;
-                    current = newNode;
+}
 
+class Trie {
+    Node root;
+
+    public Trie() {
+        root = new Node();
+    }
+
+    public void insert(int n) {
+        Node temp = root;
+        for(int i=31; i>=0; i--) {
+            int currBit = (n >> i) & 1;
+
+            if(!temp.containsKey(currBit)) {
+                temp.put(currBit);
+            }
+            temp = temp.get(currBit);
+        }
+        temp.isEnd = true;
+    }
+
+    public int getMax(int n) {
+        Node temp = root;
+        int number = 0;
+        for(int i=31; i>=0; i--) {
+            int currBit = (n >> i) & 1;
+
+            if(currBit == 0) {
+                if(temp.containsKey(1)) {
+                    temp = temp.get(1);
+                    number += Math.pow(2, i);
+                } else {
+                    temp = temp.get(0);
                 }
             } else {
-                if (current.one != null) {
-                    current = current.one;
+                if(temp.containsKey(0)) {
+                    temp = temp.get(0);
+                    number += Math.pow(2, i);
                 } else {
-                    Node newNode = new Node();
-                    current.one = newNode;
-                    current = newNode;
+                    temp = temp.get(1);
                 }
-
             }
-
         }
+        return number;
     }
-        public static int getMaxXOR(Node root,int val)
-        {
-            int num = 0;
-            Node current = root;
-            for (int i = 31; i >= 0; i--)
-            {
-                int bit = (val & ( 1 << i));
-                if(bit == 0)
-                {
-                    if(current.one != null)
-                    {
-                        num += (1 << i);
-                        current = current.one;
-                    }
-                    else {
-                        current = current.zero;
-                    }
+}
 
-                }
-                else {
-                    if(current.zero != null)
-                    {
-                        num += (1 << i);
-                        current = current.zero;
-                    }
-                    else {
-                        current = current.one;
-                    }
-                }
+class Node {
+    Node[] arr;
+    boolean isEnd;
 
-            }
-            return num;
-        }
+    public Node() {
+        arr = new Node[2];
+        isEnd = false;
+    }
+
+    public boolean containsKey(int bit) {
+        return arr[bit] != null;
+    }
+
+    public Node get(int bit) {
+        return arr[bit];
+    }
+
+    public void put(int bit) {
+        arr[bit] = new Node();
+    }
 }
