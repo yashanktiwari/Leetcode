@@ -43,14 +43,14 @@ class Trie {
             if(currBit == 0) {
                 if(temp.containsKey(1)) {
                     temp = temp.get(1);
-                    number += Math.pow(2, i);
+                    number += (1 << i);
                 } else {
                     temp = temp.get(0);
                 }
             } else {
                 if(temp.containsKey(0)) {
                     temp = temp.get(0);
-                    number += Math.pow(2, i);
+                    number += (1 << i);
                 } else {
                     temp = temp.get(1);
                 }
