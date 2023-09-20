@@ -6,6 +6,7 @@ class Solution {
       return climb(n, arr);
     }
 
+    // Memoization code
     public static int climb(int n, int[] arr) {
       if(n < 0) return 0;
       if(n == 0) return 1;
