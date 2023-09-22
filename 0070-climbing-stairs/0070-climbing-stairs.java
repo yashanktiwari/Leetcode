@@ -3,7 +3,7 @@ class Solution {
       int[] dp = new int[n+1];
       Arrays.fill(dp, -1);
       dp[0] = 0;
-      return climb_t(n);
+      return climb_rsc(n);
     }
 
     // Memoization code
