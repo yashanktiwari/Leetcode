@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         int[] dp = new int[n+1];
         Arrays.fill(dp, -1);
-        return rob_m(n-1, nums, dp);
+        return rob_t(nums);
     }
 
     // Recursion solution
@@ -29,5 +29,23 @@ class Solution {
         int notPick = 0 + rob_m(i-1, arr, dp);
 
         return dp[i] = Math.max(pick, notPick);
+    }
+
+    // Tabulation solution
+    public int rob_t(int[] arr) {
+        int n = arr.length;
+        int[] dp = new int[n+1];
+
+        for(int i=0; i<n; i++) {
+            int pick = arr[i];
+            if(i-2 >= 0) pick += dp[i-2];
+
+            int notPick = 0;
+            if(i-1 >= 0) notPick += dp[i-1];
+
+            dp[i] = Math.max(pick, notPick);
+        }
+
+        return dp[n-1];
     }
 }
