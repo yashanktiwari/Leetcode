@@ -3,7 +3,7 @@ class Solution {
         int n = coins.length;
         int[][] dp = new int[n+1][amount+1];
         for(int[] ar : dp) Arrays.fill(ar, -1);
-        int ans = cc_m(n-1, amount, coins, dp);
+        int ans = cc_t(amount, coins);
         if(ans >= (int)1e9) return -1;
         else return ans;
     }
@@ -35,5 +35,29 @@ class Solution {
         int notPick = cc_m(i-1, amount, arr, dp);
 
         return dp[i][amount] = Math.min(pick, notPick);
+    }
+
+    // Tabulation solution
+    public int cc_t(int amount, int[] arr) {
+        int n = arr.length;
+        int[][] dp = new int[n+1][amount+1];
+
+        for(int[] ar : dp) Arrays.fill(ar, (int) 1e9);
+        
+        for(int j=0; j<=amount; j++) {
+            if(j % arr[0] == 0) dp[0][j] = j / arr[0];
+        }
+
+        for(int i=1; i<n; i++) {
+            for(int j=0; j<=amount; j++) {
+                int pick = (int) 1e9;
+                if(arr[i] <= j) pick = 1 + dp[i][j-arr[i]];
+                int notPick = 0 + dp[i-1][j];
+
+                dp[i][j] = Math.min(pick, notPick);
+            }
+        }
+
+        return dp[n-1][amount];
     }
 }
