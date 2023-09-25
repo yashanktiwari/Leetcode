@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         int[][] dp = new int[n+1][n+1];
         for(int[] ar : dp) Arrays.fill(ar, -1);
-        return lis_t(nums);
+        return lis_bs(nums);
     }
 
     // Recursive solution
@@ -64,5 +64,38 @@ class Solution {
         }
 
         return dp[n-1][0];
+    }
+
+    // Binary Search solution
+    public int lis_bs(int[] arr) {
+        List<Integer> list = new ArrayList<>();
+
+        int n = arr.length;
+        for(int i=0; i<n; i++) {
+            if(list.isEmpty() || arr[i] > list.get(list.size()-1)) {
+                list.add(arr[i]);
+            } else {
+                int idx = findIdx(arr[i], list);
+                list.set(idx, arr[i]);
+            }
+        }
+        return list.size();
+    }
+
+    public int findIdx(int num, List<Integer> list) {
+        int si = 0, ei = list.size()-1;
+        int ans = 0;
+        while(si <= ei) {
+            int mid = si + (ei-si)/2;
+            if(list.get(mid) < num) {
+                si = mid + 1;
+            } else if(list.get(mid) > num) {
+                ans = mid;
+                ei = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+        return ans;
     }
 }
