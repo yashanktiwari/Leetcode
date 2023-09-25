@@ -3,7 +3,7 @@ class Solution {
         int n = nums.length;
         int[][] dp = new int[n+1][n+1];
         for(int[] ar : dp) Arrays.fill(ar, -1);
-        return lis_m(n-1, 0, nums, dp);
+        return lis_t(nums);
     }
 
     // Recursive solution
@@ -39,5 +39,30 @@ class Solution {
         int notPick = 0 + lis_m(i-1, last, arr, dp);
 
         return dp[i][last] = Math.max(pick, notPick);
+    }
+
+    // Tabulation solution
+    public int lis_t(int[] arr) {
+        int n = arr.length;
+        int[][] dp = new int[n+1][n+1];
+
+        for(int j=0; j<=n; j++) {
+            if(j-1 == -1 || arr[0] < arr[j-1]) dp[0][j] = 1;
+        }
+
+        for(int i=1; i<n; i++) {
+            for(int j=0; j<=n; j++) {
+                int pick = 0;
+                if(j-1 == -1 || arr[i] < arr[j-1]) {
+                    pick = 1 + dp[i-1][i+1];
+                }
+
+                int notPick = 0 + dp[i-1][j];
+
+                dp[i][j] = Math.max(pick, notPick);
+            }
+        }
+
+        return dp[n-1][0];
     }
 }
