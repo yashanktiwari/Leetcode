@@ -36,4 +36,25 @@ class Solution {
             return dp[i][shouldBuy] = Math.max(sell, notSell);
         }
     }
+
+    // Tabulation solution
+    public int calc_t(int[] arr) {
+        int n = arr.length;
+        int[][] dp = new int[n+1][2];
+
+        for(int i=n-1; i>=0; i--) {
+            for(int shouldBuy=0; shouldBuy<2; shouldBuy++) {
+                if(shouldBuy == 1) {
+                    int buy = (-1 * arr[i]) + dp[i+1][0];
+                    int notBuy = 0 + dp[i+1][1];
+                    dp[i][shouldBuy] = Math.max(buy, notBuy);
+                } else {
+                    int sell = arr[i] + dp[i+2][1];
+                    int notSell = 0 + dp[i+1][0];
+                    dp[i][shouldBuy] = Math.max(sell, notSell);
+                }
+            }
+        }
+        return dp[0][1];
+    }
 }
