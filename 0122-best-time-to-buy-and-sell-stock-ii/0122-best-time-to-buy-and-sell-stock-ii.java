@@ -1,28 +1,45 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        int[][] dp = new int[prices.length][2];
-        for(int i=0; i<dp.length; i++) {
-            Arrays.fill(dp[i], -1);
-        }
-        return calc(prices, 0, 1, dp);
+        int n = prices.length;
+        int[][] dp = new int[n+1][2];
+        for(int[] ar : dp) Arrays.fill(ar, -1);
+        return calc_m(0, 1, prices, dp);
     }
 
-    /*
-    if buy == 1, we can buy the stock
-    */
-    public int calc(int[] arr, int i, int buy, int[][] dp) {
-        if(i == arr.length) return 0;
+    // Recursive solution
+    public int calc_r(int i, int shouldBuy, int[] arr) {
+        if(i == arr.length) {
+            return 0;
+        }
 
-        if(dp[i][buy] != -1) return dp[i][buy];
-
-        if(buy == 1) {
-            int b = -1*arr[i] + calc(arr, i+1, 0, dp);
-            int nb = 0 + calc(arr, i+1, 1, dp);
-            return dp[i][buy] = Math.max(b, nb);
+        if(shouldBuy == 1) {
+            int buy = (-1 * arr[i]) + calc_r(i+1, 0, arr);
+            int notBuy = 0 + calc_r(i+1, 1, arr);
+            return Math.max(buy, notBuy);
         } else {
-            int s = arr[i] + calc(arr, i+1, 1, dp);
-            int ns = 0 + calc(arr, i+1, 0, dp);
-            return dp[i][buy] = Math.max(s, ns);
+            int sell = arr[i] + calc_r(i+1, 1, arr);
+            int notSell = 0 + calc_r(i+1, 0, arr);
+            return Math.max(sell, notSell);
         }
     }
+
+    // Memoization solution
+    public int calc_m(int i, int shouldBuy, int[] arr, int[][] dp) {
+        if(i == arr.length) {
+            return 0;
+        }
+        if(dp[i][shouldBuy] != -1) return dp[i][shouldBuy];
+
+        if(shouldBuy == 1) {
+            int buy = (-1 * arr[i]) + calc_m(i+1, 0, arr, dp);
+            int notBuy = 0 + calc_m(i+1, 1, arr, dp);
+            return dp[i][shouldBuy] = Math.max(buy, notBuy);
+        } else {
+            int sell = arr[i] + calc_m(i+1, 1, arr, dp);
+            int notSell = 0 + calc_m(i+1, 0, arr, dp);
+            return dp[i][shouldBuy] = Math.max(sell, notSell);
+        }
+    }
+
+    
 }
