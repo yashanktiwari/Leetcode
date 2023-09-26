@@ -5,7 +5,7 @@ class Solution {
         for(int[][] ar : dp) {
             for(int[] a : ar) Arrays.fill(a, -1);
         }
-        return calc_m(0, 1, 2, prices, dp);
+        return calc_t(prices);
     }
 
     // Recursive solution
@@ -39,5 +39,29 @@ class Solution {
             int notSell = calc_m(i+1, 0, k, arr, dp);
             return dp[i][shouldBuy][k] = Math.max(sell, notSell);
         }
+    }
+
+    // Tabulation solution
+    public int calc_t(int[] arr) {
+        int n = arr.length;
+        int[][][] dp = new int[n+1][2][3];
+
+        for(int i=n-1; i>=0; i--) {
+            for(int shouldBuy=0; shouldBuy<2; shouldBuy++) {
+                for(int k=1; k<3; k++) {
+                    if(shouldBuy == 1) {
+                        int buy = (-1 * arr[i]) + dp[i+1][0][k];
+                        int notBuy = dp[i+1][1][k];
+                        dp[i][shouldBuy][k] = Math.max(buy, notBuy);
+                    } else {
+                        int sell = arr[i] + dp[i+1][1][k-1];
+                        int notSell = dp[i+1][0][k];
+                        dp[i][shouldBuy][k] = Math.max(sell, notSell);
+                    }
+                }
+            }
+        }
+
+        return dp[0][1][2];
     }
 }
