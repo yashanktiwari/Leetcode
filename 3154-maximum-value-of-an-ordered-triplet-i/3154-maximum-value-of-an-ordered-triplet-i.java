@@ -1,6 +1,6 @@
 class Solution {
     public long maximumTripletValue(int[] nums) {
-        return optimized(nums);
+        return optimizedII(nums);
     }
 
     public long bruteForce(int[] nums) {
@@ -16,6 +16,7 @@ class Solution {
         return ans;
     }
 
+    // Two array approach
     public long optimized(int[] arr) {
         int n = arr.length;
         int[] leftMax = new int[n];
@@ -36,6 +37,28 @@ class Solution {
         long ans = 0;
         for(int i=1; i<n-1; i++) {
             ans = Math.max(ans, (leftMax[i] - arr[i]) * (long) rightMax[i]);
+        }
+        return ans;
+    }
+
+    // One array approach
+    public long optimizedII(int[] arr) {
+        int n = arr.length;
+        int[] rightMax = new int[n];
+
+
+        int max = 0;
+        for(int i=n-1; i>=0; i--) {
+            rightMax[i] = max;
+            max = Math.max(max, arr[i]);
+        }
+
+        max = arr[0];
+
+        long ans = 0;
+        for(int i=1; i<n-1; i++) {
+            max = Math.max(max, arr[i]);
+            ans = Math.max(ans, (max - arr[i]) * (long) rightMax[i]);
         }
         return ans;
     }
