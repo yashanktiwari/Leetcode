@@ -8,6 +8,7 @@ class Solution {
         return calc_t(n);
     }
 
+    // Recursive Solution
     public int calc_r(int n, int step) {
         if(n == 0) {
             if(step < 2) return 0;
@@ -22,6 +23,7 @@ class Solution {
         return maxPdt;
     }
 
+    // Memoization Solution
     public int calc_m(int n, int step, int[][] dp) {
         if(n == 0) {
             if(step < 2) return 0;
@@ -37,6 +39,7 @@ class Solution {
         return dp[n][step] = maxPdt;
     }
 
+    // Tabulation Solution
     public int calc_t(int n) {
         int[][] dp = new int[n+1][n+1];
 
