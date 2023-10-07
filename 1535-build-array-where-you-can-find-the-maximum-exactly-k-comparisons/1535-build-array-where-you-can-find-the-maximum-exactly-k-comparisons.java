@@ -1,3 +1,11 @@
+/*
+Since the elements of our array range from 1 to m, so we can try out every number at that position.
+Whenever we place an element, the length increases and the largest value till now increases.
+3 states ->
+    n: to take care of the length of the LIS
+    lar: to take care of the largest value till now
+    len: to take care that the cost does not go beyond k
+*/
 class Solution {
     public int numOfArrays(int n, int m, int k) {
         int[][][] dp = new int[m+1][n+1][n+1];
